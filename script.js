@@ -1,6 +1,6 @@
 // script.js
 
-// Initial Donor Data
+// DONOR DATA
 
 let donors = [
 
@@ -28,31 +28,46 @@ let donors = [
 ];
 
 
-// FORM SUBMIT
+// FORM
 
-const donorForm = document.getElementById("donorForm");
+const donorForm =
+document.getElementById("donorForm");
+
+
+// DONOR REGISTER
 
 donorForm.addEventListener("submit", function(event){
 
     event.preventDefault();
 
-    const name = document.getElementById("name").value;
-    const phone = document.getElementById("phone").value;
-    const blood = document.getElementById("bloodGroup").value;
-    const location = document.getElementById("location").value;
+    const name =
+    document.getElementById("name").value;
+
+    const phone =
+    document.getElementById("phone").value;
+
+    const blood =
+    document.getElementById("bloodGroup").value;
+
+    const location =
+    document.getElementById("location").value;
 
     const donor = {
+
         name,
         phone,
         blood,
         location
+
     };
 
     donors.push(donor);
 
     displayDonors(donors);
 
-    alert("Donor Registered Successfully!");
+    updateDashboard();
+
+    showPopup();
 
     donorForm.reset();
 
@@ -63,7 +78,8 @@ donorForm.addEventListener("submit", function(event){
 
 function displayDonors(donorArray){
 
-    const tableBody = document.getElementById("donorTableBody");
+    const tableBody =
+    document.getElementById("donorTableBody");
 
     tableBody.innerHTML = "";
 
@@ -72,14 +88,25 @@ function displayDonors(donorArray){
         tableBody.innerHTML += `
 
             <tr>
-                <td>${donor.name}</td>
+
                 <td>
-    <span class="blood-badge">
-        ${donor.blood}
-    </span>
-</td>
-                <td>${donor.phone}</td>
-                <td>${donor.location}</td>
+                    ${donor.name}
+                </td>
+
+                <td>
+                    <span class="blood-badge">
+                        ${donor.blood}
+                    </span>
+                </td>
+
+                <td>
+                    ${donor.phone}
+                </td>
+
+                <td>
+                    ${donor.location}
+                </td>
+
             </tr>
 
         `;
@@ -94,7 +121,7 @@ function displayDonors(donorArray){
 function searchDonor(){
 
     const selectedBlood =
-        document.getElementById("searchBlood").value;
+    document.getElementById("searchBlood").value;
 
     if(selectedBlood === ""){
 
@@ -103,7 +130,8 @@ function searchDonor(){
 
     }
 
-    const filteredDonors = donors.filter(function(donor){
+    const filteredDonors =
+    donors.filter(function(donor){
 
         return donor.blood === selectedBlood;
 
@@ -114,6 +142,83 @@ function searchDonor(){
 }
 
 
+// UPDATE DASHBOARD
+
+function updateDashboard(){
+
+    document
+    .getElementById("totalDonors")
+    .innerText = donors.length;
+
+}
+
+
+// SHOW POPUP
+
+function showPopup(){
+
+    document
+    .getElementById("successPopup")
+    .classList.add("active");
+
+}
+
+
+// CLOSE POPUP
+
+function closePopup(){
+
+    document
+    .getElementById("successPopup")
+    .classList.remove("active");
+
+}
+
+
+// EMERGENCY REQUEST COUNT
+
+const emergencyForm =
+document.getElementById("emergencyForm");
+
+let emergencyRequests = 0;
+
+emergencyForm.addEventListener("submit", function(event){
+
+    event.preventDefault();
+
+    emergencyRequests++;
+
+    document
+    .getElementById("emergencyCount")
+    .innerText = emergencyRequests;
+
+    showEmergencyPopup();
+
+    emergencyForm.reset();
+
+});
+
+
+// EMERGENCY POPUP
+
+function showEmergencyPopup(){
+
+    const popup =
+    document.getElementById("successPopup");
+
+    popup.classList.add("active");
+
+    popup.querySelector("h3").innerText =
+    "Emergency Request Sent";
+
+    popup.querySelector("p").innerText =
+    "Emergency blood request submitted successfully.";
+
+}
+
+
 // INITIAL LOAD
 
 displayDonors(donors);
+
+updateDashboard();
